@@ -14,7 +14,13 @@ class UsersController < ApplicationController
       @user = User.new(login: user_params[:login], password_secret: Digest::SHA256.hexdigest(user_params[:password]))
       if @user.save
         session[:user_id] = @user.id if cookies[:demo_mode] == '0'
-        cookies[:user_id] = @user.id if cookies[:demo_mode] == '1'
+        cookies[:user_id] = { value:@user.id, expires: 1.hour.from_now } if cookies[:demo_mode] == '1'
+
+        if cookies[:demo_mode] == '2'
+          token = Random.new_seed
+          cookies[:auth_token] = { value:token, expires: 1.hour.from_now }
+          @user.update(auth_token: token)
+        end
         flash[:success] = 'User create!'
         redirect_to root_url
       else
