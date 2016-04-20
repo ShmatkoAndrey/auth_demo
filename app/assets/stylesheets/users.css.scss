@@ -14,4 +14,11 @@ table {
   display: inline-block;
   position: absolute;
   left: 300px;
+  a {
+    border-left: 1px solid white;
+    margin-right: 10px;
+  }
+  a:last-child {
+    border-right: 1px solid white;
+  }
 }

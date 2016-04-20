@@ -9,12 +9,14 @@
           - else
             Hi, Guest
         .mods
-          %a.navbar-brand{href: modes_change_path(mode: 1), style: "#{'color:red;' if cookies[:demo_mode] == '0' }"}
+          %a.navbar-brand{href: modes_change_path(mode: 0), style: "#{'color:red;' if cookies[:demo_mode] == '0' }"}
             Session
-          %a.navbar-brand{href: modes_change_path(mode: 2), style: "#{'color:red;' if cookies[:demo_mode] == '1' }"}
+          %a.navbar-brand{href: modes_change_path(mode: 1), style: "#{'color:red;' if cookies[:demo_mode] == '1' }"}
             Cookie
-          %a.navbar-brand{href: modes_change_path(mode: 3), style: "#{'color:red;' if cookies[:demo_mode] == '2' }"}
+          %a.navbar-brand{href: modes_change_path(mode: 2), style: "#{'color:red;' if cookies[:demo_mode] == '2' }"}
             AuthToken
+          %a.navbar-brand{href: modes_change_path(mode: 3), style: "#{'color:red;' if cookies[:demo_mode] == '3' }"}
+            AuthToken + Session
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?

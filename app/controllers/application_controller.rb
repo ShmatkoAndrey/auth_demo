@@ -5,22 +5,19 @@ class ApplicationController < ActionController::Base
 
   def current_user
     if cookies[:demo_mode] == '0'
-      return User.find(session[:user_id]) unless session[:user_id].nil?
+      @user_find = User.where(id: session[:user_id]) unless session[:user_id].nil?
     elsif cookies[:demo_mode] == '1'
-      return  User.find(cookies[:user_id]) if cookies[:user_id] && !cookies[:user_id].empty?
+      @user_find = User.where(id: cookies[:user_id]) if cookies[:user_id] && !cookies[:user_id].empty?
     elsif cookies[:demo_mode] == '2'
-      return  User.where(auth_token: cookies[:auth_token]).first if cookies[:auth_token] && !cookies[:auth_token].empty?
+      @user_find = User.where(auth_token: cookies[:auth_token]) if cookies[:auth_token] && !cookies[:auth_token].empty?
+    elsif cookies[:demo_mode] == '3'
+      @user_find = User.where(id: session[:user_id_auth]) unless session[:user_id_auth].nil?
     end
+    @current_user ||= @user_find.first unless @user_find.nil?
   end
 
   def user_signed_in?
-    if cookies[:demo_mode] == '0'
-      return session[:user_id] ? true : false
-    elsif cookies[:demo_mode] == '1'
-      return !cookies[:user_id].empty? if cookies[:user_id]
-    elsif cookies[:demo_mode] == '2'
-      return !cookies[:auth_token].empty? if cookies[:auth_token]
-    end
+    current_user.presence
   end
 
   helper_method 'current_user'
