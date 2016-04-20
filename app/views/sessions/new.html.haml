@@ -1,0 +1,13 @@
+.col-md-2
+.col-md-3
+  %h1 Log in
+  = form_tag sessions_path do
+    .form-group
+      = label_tag :login
+      = text_field_tag :login, params[:login], class: 'form-control'
+    .form-group
+      = label_tag :password
+      = password_field_tag :password, '', class: 'form-control'
+    .form-group
+      = submit_tag 'Log in', class: 'btn btn-default'
+      = link_to 'Sign up', new_users_path

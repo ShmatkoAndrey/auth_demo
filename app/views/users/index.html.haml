@@ -1,0 +1,22 @@
+.col-md-2
+.col-md-8
+  %table.table-bordered
+    %tr
+      %th
+        Id
+      %th
+        Login
+      %th
+        Password(crypt)
+      %th
+        Created at
+    - @users.each do |user|
+      %tr
+        %td
+          = user.id
+        %td
+          = user.login
+        %td
+          = user.password_secret
+        %td
+          = user.created_at

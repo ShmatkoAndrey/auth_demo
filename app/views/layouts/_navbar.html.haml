@@ -1,0 +1,16 @@
+%nav.navbar.navbar-inverse
+  .container-fluid
+    .collapse.navbar-collapse
+      .navbar-header
+        .navbar-brand
+          - if user_signed_in?
+            Hi,
+            = current_user.login
+          - else
+            Hi, Guest
+      %ul.nav.navbar-nav.navbar-right
+        - if user_signed_in?
+          %li= link_to 'Logout', sessions_path, method: :delete
+        - else
+          %li= link_to 'Login', new_sessions_path
+          %li= link_to 'Sign up', new_users_path
