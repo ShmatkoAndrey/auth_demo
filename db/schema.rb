@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20160420085427) do
   create_table "users", force: :cascade do |t|
     t.string   "login"
     t.string   "password_secret"
+    t.string   "auth_token"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
