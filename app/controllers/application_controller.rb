@@ -14,7 +14,6 @@ class ApplicationController < ActionController::Base
       if session[:user_id_auth].nil? && cookies[:auth_token_session] && !cookies[:auth_token_session].empty?
         user = User.where(auth_token: cookies[:auth_token_session])
         session[:user_id_auth] = user.first.id unless user.nil?
-
       else
         @user_find = User.where(id: session[:user_id_auth])
       end
