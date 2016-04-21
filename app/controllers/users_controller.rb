@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
   def index
-    @users = User.all.order('created_at DESC');
+    @users = User.all.order('created_at DESC')
+    @current_user = current_user
   end
 
   def new
@@ -42,8 +43,5 @@ class UsersController < ApplicationController
       flash[:danger] = 'Invalid pass or pass != confirmation'
       redirect_to new_users_path
     end
-  end
-
-  def show
   end
 end
