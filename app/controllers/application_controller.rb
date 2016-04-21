@@ -11,7 +11,13 @@ class ApplicationController < ActionController::Base
     elsif cookies[:demo_mode] == '2'
       @user_find = User.where(auth_token: cookies[:auth_token]) if cookies[:auth_token] && !cookies[:auth_token].empty?
     elsif cookies[:demo_mode] == '3'
-      @user_find = User.where(id: session[:user_id_auth]) unless session[:user_id_auth].nil?
+      if session[:user_id_auth].nil? && cookies[:auth_token_session] && !cookies[:auth_token_session].empty?
+        user = User.where(auth_token: cookies[:auth_token_session])
+        session[:user_id_auth] = user.first.id unless user.nil?
+
+      else
+        @user_find = User.where(id: session[:user_id_auth])
+      end
     end
     @current_user ||= @user_find.first unless @user_find.nil?
   end

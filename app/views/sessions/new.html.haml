@@ -9,5 +9,8 @@
       = label_tag :password
       = password_field_tag :password, '', class: 'form-control'
     .form-group
+      = check_box_tag :remember, 'remember'
+      Remember me
+    .form-group
       = submit_tag 'Log in', class: 'btn btn-default'
       = link_to 'Sign up', new_users_path

@@ -16,10 +16,11 @@ class SessionsController < ApplicationController
 
       elsif cookies[:demo_mode] == '3'
         session[:user_id_auth] = user.id
-        token = Random.new_seed
-        cookies[:auth_token_session] = { value:token, expires: 1.hour.from_now }
-        user.update(auth_token: token)
-
+        if params[:remember]
+          token = Random.new_seed
+          cookies[:auth_token_session] = { value:token, expires: 1.hour.from_now }
+          user.update(auth_token: token)
+        end
       end
       flash[:success] = 'User login!'
       redirect_to root_url
