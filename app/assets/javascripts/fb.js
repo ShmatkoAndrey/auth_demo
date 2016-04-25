@@ -1,10 +1,7 @@
 function FBlogin() {
     FB.init({
         appId      : '1997533793805209',
-        //secret     : 'ed28000574a370346a5e6545444a0ae9',
-        cookie     : true,  // enable cookies to allow the server to access the session
-        xfbml      : true,  // parse social plugins on this page
-        version    : 'v2.2' // use version 2.2
+        version    : 'v2.5' // use version 2.2
     });
 
     FB.getLoginStatus(function(response) {
@@ -22,6 +19,15 @@ function FBlogin() {
 function login() {
     FB.api('/me', {fields: 'email,name,first_name,last_name,birthday,age_range,bio,gender,picture,link,locale'}, function(response) {
         console.log(response);
+        $.ajax({
+            type: 'POST',
+            url: '../sessions/social_auth',
+            dataType : 'html',
+            data: {social: response, provider: 'facebook'},
+            success: function(response) {
+                document.write(response);
+            }
+        });
     });
 }
 

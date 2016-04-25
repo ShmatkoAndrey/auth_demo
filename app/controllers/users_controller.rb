@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     if !params[:user][:password].empty? && params[:user][:password] == params[:user][:password_confirmation]
       @user = User.new(login: params[:user][:login], password_secret: Digest::SHA256.hexdigest(params[:user][:password]))
       if @user.save
-        session[:user_id_auth] = @user.id
+        session[:user_id] = @user.id
         flash[:success] = 'User create!'
         redirect_to root_url
       else

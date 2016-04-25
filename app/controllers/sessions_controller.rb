@@ -2,10 +2,10 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by_login(params[:login])
     if user && user.password_secret == Digest::SHA256.hexdigest(params[:password])
-      session[:user_id_auth] = user.id
+      session[:user_id] = user.id
       if params[:remember]
         token = Random.new_seed
-        cookies[:auth_token_session] = { value:token, expires: 1.hour.from_now }
+        cookies[:auth_token] = { value:token, expires: 1.hour.from_now }
         user.update(auth_token: token)
       end
       flash[:success] = 'User login!'
@@ -17,9 +17,22 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session[:user_id_auth] = nil
-    cookies[:auth_token_session] = nil
+    session[:user_id] = nil
+    cookies[:auth_token] = nil
     flash[:success] = 'User session destroy!'
     redirect_to root_url
+  end
+
+  def social_auth
+    unless params[:social][:error]
+      @user = User.find_for_auth(params[:provider], params[:social])
+      if @user.nil?
+        redirect_to :back
+      else
+        session[:user_id] = @user.id
+      end
+      redirect_to root_path
+    end
+    redirect_to :back
   end
 end
