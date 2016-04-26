@@ -27,3 +27,14 @@ gem 'shmatgem'
 gem 'faker'
 gem 'haml'
 gem 'bootstrap-sass'
+
+gem 'selenium-webdriver'
+gem 'rack-cors'
+
+group :development, :test do
+  gem 'rspec-rails', '3.1.0' # Use RSpec for specs
+  gem 'factory_girl_rails' # Use Factory Girl for generating random test data
+  gem 'capybara'
+  gem 'rails-controller-testing'
+  gem 'database_cleaner'
+end
