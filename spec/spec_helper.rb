@@ -40,6 +40,10 @@ RSpec.configure do |config|
 
   config.include Capybara::DSL
   config.include FactoryGirl::Syntax::Methods
+
+  # Capybara.default_max_wait_time= = 10
+  # Capybara.app_host = 'http://localhost:3000'
+
 end
 
 class ActiveRecord::Base

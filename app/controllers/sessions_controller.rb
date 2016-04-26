@@ -24,15 +24,16 @@ class SessionsController < ApplicationController
   end
 
   def social_auth
-    unless params[:social][:error]
+    if params[:social][:error]
+      redirect_to :back
+    else
       @user = User.find_for_auth(params[:provider], params[:social])
       if @user.nil?
         redirect_to :back
       else
         session[:user_id] = @user.id
+        redirect_to root_path
       end
-      redirect_to root_path
     end
-    redirect_to :back
   end
 end
