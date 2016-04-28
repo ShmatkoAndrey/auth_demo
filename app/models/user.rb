@@ -10,7 +10,6 @@ class User < ActiveRecord::Base
     if @user.nil?
         @user = User.create(login: auth[:email], password_secret: Digest::SHA256.hexdigest(Random.new_seed.to_s))
         identity.update(user_id: @user.id)
-        puts "#{@user.errors.full_messages || 'nil'}".red
     end
     @user
   end

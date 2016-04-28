@@ -68,3 +68,43 @@ describe 'social buttons facebook' do
     expect(page).to have_content("Hi, #{@fb_user[:email]}")
   end
 end
+
+describe 'social authorized action' do
+
+  before {
+    @auth_error = {social: {error: 'error'}}
+    @auth = {provider: 'my', social: {email: Faker::Internet.email, id: Random.new_seed.to_s}}
+  }
+
+  it 'new user', js: true do
+    expect do
+      post sessions_social_auth_path, @auth
+    end.to change(User, :count).by(1)
+  end
+
+  it 'new Identity', js: true do
+    expect do
+      post sessions_social_auth_path, @auth
+    end.to change(Identity, :count).by(1)
+  end
+
+  it 'new user error if user first login in social', js: true do
+    expect do
+      post sessions_social_auth_path, @auth_error, 'HTTP_REFERER' => new_sessions_path
+    end.to change(User, :count).by(0)
+  end
+
+  it 'add identity to user', js: true do
+    User.create(login: @auth[:social][:email], password_secret: 'example')
+    expect do
+      post sessions_social_auth_path, @auth
+    end.to change(Identity, :count).by(1)
+  end
+
+  it 'user login in social', js: true do
+    post sessions_social_auth_path, @auth
+    expect do
+      post sessions_social_auth_path, @auth
+    end.not_to change(User, :count) and change(Identity, :count)
+  end
+end
