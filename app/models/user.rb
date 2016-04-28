@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_many :identities
+  has_many :identities, dependent: :destroy
 
   validates :login, :presence => true, :uniqueness => {:case_sensitive => false }, length: {maximum: 55}
   validates :password_secret, :presence => true, length: {minimum: 1}

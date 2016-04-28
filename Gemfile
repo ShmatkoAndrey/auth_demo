@@ -35,5 +35,4 @@ group :development, :test do
   gem 'factory_girl_rails' # Use Factory Girl for generating random test data
   gem 'capybara'
   gem 'rails-controller-testing'
-  gem 'database_cleaner'
 end

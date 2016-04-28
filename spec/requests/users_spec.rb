@@ -2,11 +2,13 @@ require 'rails_helper'
 
 describe 'Users', :type => :request do
   before {
-    @user = FactoryGirl.build(:user)
+    # @user = FactoryGirl.build(:user)
+    @user = User.new(login: Faker::Internet.user_name, password_secret: Random.new_seed.to_s)
+
     @pass = @user.password_secret
     @user.password_secret = Digest::SHA256.hexdigest(@pass)
   }
-
+  
   describe 'GET rooth_path' do
     it 'works!', js: true do
       get root_path
@@ -225,6 +227,7 @@ describe 'Users', :type => :request do
       fill_in 'Login', with: @user.login
       fill_in 'Password', with: @pass
       click_button 'Log in'
+      sleep 1.second
       click_link 'Logout'
       expect(page).not_to have_content('Logout')
     end
@@ -235,61 +238,9 @@ describe 'Users', :type => :request do
       fill_in 'Login', with: @user.login
       fill_in 'Password', with: @pass
       click_button 'Log in'
+      sleep 1.second
       click_link 'Logout'
       expect(page).to have_content('Hi, Guest')
     end
   end
-
-  # describe 'social buttons facebook' do
-  #   before { @fb_user = {email: 'erygjoz_laustein_1461688220@tfbnw.net', password: '456369'} }
-  #
-  #   it 'invalid password facebook', js: true do
-  #     visit new_sessions_path
-  #     sleep 1.second
-  #     find('#fb-button').click
-  #     sleep 5.second
-  #     while page.driver.browser.window_handles.length == 1
-  #       sleep 5.seconds
-  #     end
-  #     within_window('Facebook') do
-  #       fill_in 'email', with: @fb_user[:email]
-  #       fill_in 'pass', with: 'xx'
-  #       find('#loginbutton').click
-  #     end
-  #     sleep 2.second
-  #     expect(page).to have_content('Hi, Guest')
-  #   end
-  #
-  #   it 'facebook click cancel button', js: true do
-  #     visit new_sessions_path
-  #     sleep 1.second
-  #     find('#fb-button').click
-  #     sleep 5.second
-  #     while page.driver.browser.window_handles.length == 1
-  #       sleep 5.seconds
-  #     end
-  #     within_window('Facebook') do
-  #       click_button 'Cancel'
-  #     end
-  #     sleep 2.second
-  #     expect(page).to have_content('Hi, Guest')
-  #   end
-  #
-  #   it 'login and redirect', js: true do
-  #     visit new_sessions_path
-  #     sleep 1.second
-  #     find('#fb-button').click
-  #     sleep 5.second
-  #     while page.driver.browser.window_handles.length == 1
-  #       sleep 5.seconds
-  #     end
-  #     within_window('Facebook') do
-  #       fill_in 'email', with: @fb_user[:email]
-  #       fill_in 'pass', with: @fb_user[:password]
-  #       find('#loginbutton').click
-  #     end
-  #     sleep 2.second
-  #     expect(page).to have_content("Hi, #{@fb_user[:email]}")
-  #   end
-  # end
 end
